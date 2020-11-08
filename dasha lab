@@ -1,0 +1,87 @@
+
+
+#include <stdio.h>
+
+const int n = 4;	// задает длинну массива
+
+void input(float* arr) {
+	float x;
+	printf("input arr:\n");
+	for (int i = 0; i < n; i++) {
+		printf("%d >>",i);
+		scanf_s("%f", &x);			// Если работешь не в вижуалке то замени на scanf (Убери)
+		arr[i] = x;
+	}
+	printf("array fill");
+}
+
+float abs(float x) {
+	if (x < 0) {
+		x = x * (-1);
+	}
+	return x;
+}
+
+int main()
+{
+	float sum = 0;
+	int ind =0;
+	float arr[n]; 
+	int i,l,r;
+	int zero = 0;
+	
+	input(arr);
+
+	for (int i = 0; i < n; i++) {		// Пункт 1
+		if (i % 2 != 0) {				
+			sum += arr[i];
+		}
+	}
+	printf("\nsum is %.3f\n", sum);		// вывод в формате - три знака после запятой 
+	
+	
+	i = 0;			// Пункт 2 (границы включены в массив)
+	while (arr[i] > 0) {  // Ищем левую границу выборки
+		i++;
+	}
+	l = i;
+	i = n-1;
+	while (arr[i]>0){		// Ищем правую границу выборки
+		i--;
+	}
+	r = i;
+
+	float min = arr[l];		// Обявил здесь тк не помню каке наибольшее число может влезть в float (Убери)
+
+	for (int j = l; j <= r; j++) {	// проход по нашей выборке и поиск в ней минимума
+		if (arr[j] < min) {
+			min = arr[j];
+			ind = j;
+		}
+	}
+	printf("min is %.3f\nind - %d", min,ind);		// вывод в формате - три знака после запятой 
+
+	i = 0;
+	while (i<n){
+		if (abs(arr[i]) > 1) {
+			for (int j = i; j < n - zero - 1; j++) {
+				arr[j] = arr[j + 1];
+			}
+			arr[n - 1] = 0;
+			zero++;
+		}
+		else {
+			i++;
+		}
+	}
+	for (int i = n - 1; i > n - 1 - zero; i--) {
+		arr[i] = 0;
+	}
+	for (int i = 0; i < n; i++) {
+		printf("\n%f", arr[i]);
+	}
+
+
+	return 0;
+}
+
